@@ -53,7 +53,7 @@ def print_message(message):
         else message.author.name
     )
     print(
-            "{}: {}".format(
+        "{}: {}".format(
             nick,
             message.content,
         )
@@ -65,7 +65,7 @@ async def print_channel(channel):
     with open(timestamp_file, "r") as f:
         lastread = datetime.fromtimestamp(float(f.read()))
     me = channel.guild.get_member(client.user.id)
-    messages = client.logs_from(channel, after=lastread)
+    messages = channel.history(after=lastread)
     async for message in messages:
         if not message.author == me:
             print_message(message)
@@ -95,12 +95,11 @@ def get_alias(name, alias_type):
 
 
 def get_channel(identifier):
-    return client.get_channel(get_alias(identifier, "channel"))
+    return client.get_channel(int(get_alias(identifier, "channel")))
 
 
 def get_guild(identifier):
-    return client.get_guild(get_alias(identifier, "server"))
-
+    return client.get_guild(int(get_alias(identifier, "server")))
 
 async def exit_discord():
     for user in users:
@@ -121,7 +120,7 @@ def format_word(word):
 
 
 async def get_message(channel, message_id):
-    logs = client.logs_from(channel, limit=20)
+    logs = channel.history(limit=20)
     async for log in logs:
         if log.id == message_id:
             return log
@@ -145,7 +144,10 @@ class DiscordCommands:
     async def call(self, client, command):
         tokens = command.split(" ")
         name = tokens[0]
-        await self.commands[name](client, *tokens[1:])
+        if name in self.commands:
+            await self.commands[name](client, *tokens[1:])
+        else:
+            print("No such command")
 
 
 commands = DiscordCommands()
@@ -158,7 +160,7 @@ async def list_command(client, channel=None):
         channel = get_channel(channel)
     else:
         channel = state.channel
-    logs = client.logs_from(channel, limit=20, reverse=True)
+    logs = channel.history(limit=20, oldest_first=True)
     async for log in logs:
         print_message(log)
 
@@ -179,7 +181,11 @@ async def guild_command(client, guild_id=None):
     if not guild_id:
         print(state.guild)
     else:
-        state.guild = get_guild(guild_id)
+        new_guild = get_guild(guild_id)
+        if not new_guild:
+            print("No such guild " + guild_id)
+        else:
+            state.guild = new_guild
 
 @commands.register()
 async def leave(client, guild):
@@ -257,12 +263,19 @@ async def me(client):
 @commands.register()
 async def privates(client):
     for channel in client.private_channels:
-        print(
-            "{} - [{}]".format(
-                channel.id, ", ".join([user.name for user in channel.recipients])
+        if hasattr(channel, "recipients"):
+            print(
+                "{} - [{}]".format(
+                    channel.id, ", ".join([user.name for user in channel.recipients])
+                )
             )
-        )
-    print(client.user.name)
+        else:
+            print(
+                "{} - {}".format(
+                    channel.id, channel.recipient
+                    )
+                )
+
 
 
 @commands.register()
@@ -290,8 +303,7 @@ async def main_repl():
             command = command.decode("utf-8").rstrip()
             if command.startswith("/exit"):
                 await exit_discord()
-                break
-            if command.startswith("/"):
+            elif command.startswith("/"):
                 await commands.call(client, command[1:])
             else:
                 await client.send_message(state.channel, format_message(command))
