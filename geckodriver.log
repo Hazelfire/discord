@@ -1,0 +1,20 @@
+1549863896304	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.Bi9Nx1qiq2fk"
+*** You are running in headless mode.
+1549863898295	Marionette	INFO	Listening on port 38873
+1549863898312	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.rusu.rmit.edu.au/UITemplates/DefaultAdmin/Scripts/App.js, line 9: TypeError: $(...).tabdrop is not a function
+1549863908987	Marionette	INFO	Stopped listening on port 38873
+[Parent 20686, Gecko_IOThread] WARNING: pipe error (67): Connection reset by peer: file /build/firefox/src/mozilla-unified/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 356
+1549863954430	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.QMOMfrUr4d9u"
+*** You are running in headless mode.
+1549863956404	Marionette	INFO	Listening on port 44073
+1549863956443	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.rusu.rmit.edu.au/UITemplates/DefaultAdmin/Scripts/App.js, line 9: TypeError: $(...).tabdrop is not a function
+1549863965212	Marionette	INFO	Stopped listening on port 44073
+JavaScript error: resource://gre/modules/WebProgressChild.jsm, line 58: TypeError: this.mm.content is null
+1549864359607	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.ROVxozvMMo7E"
+*** You are running in headless mode.
+1549864361619	Marionette	INFO	Listening on port 44413
+1549864361715	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.rusu.rmit.edu.au/UITemplates/DefaultAdmin/Scripts/App.js, line 9: TypeError: $(...).tabdrop is not a function
+1549864372732	Marionette	INFO	Stopped listening on port 44413

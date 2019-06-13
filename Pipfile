@@ -4,7 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-discord-py = "*"
+python-levenshtein = "*"
+discord = {py = "*"}
+python-dateutil = "*"
+google-api-python-client = "*"
+google-auth-httplib2 = "*"
+google-auth-oauthlib = "*"
+fuzzywuzzy = "*"
+selenium = "*"
+click = "*"
+sqlalchemy = "*"
+jinja2 = "*"
 
 [dev-packages]
 
@@ -12,4 +22,4 @@ discord-py = "*"
 python_version = "3.6.6"
 
 [scripts]
-start="python getnotifications.py"
+start="python -m discord-cli"
